@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node src/server.js | pnpm pino-pretty",
     "dev": "nodemon src/server.js | pnpm pino-pretty",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "config": "^3.3.9",
     "cors": "^2.8.5",
     "dayjs": "^1.11.9",
