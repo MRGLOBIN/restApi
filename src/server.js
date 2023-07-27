@@ -9,7 +9,6 @@ const PORT = config.get('port')
 const app = express()
 
 app.listen(PORT, async () => {
-  log.info('hello')
   await connectToDB()
-  console.log(`Server lstening on ${PORT} 1337`)
+  log.info(`Server is listening on http://localhost:${PORT}`)
 })
