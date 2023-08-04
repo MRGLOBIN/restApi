@@ -8,4 +8,6 @@ const log = pino({
   timestamp: () => `,"time":"${dayjs().format()}"`,
 })
 
+log.e
+
 module.exports = log

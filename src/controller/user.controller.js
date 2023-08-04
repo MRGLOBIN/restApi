@@ -6,7 +6,7 @@ async function createUserHandler(req, res) {
     const user = await createUser(req.body)
     return res.send(user)
   } catch (err) {
-    logger.err(err)
+    logger.error(err)
     res.status(409).send(err)
   }
 }
