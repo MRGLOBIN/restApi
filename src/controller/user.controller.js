@@ -1,16 +1,22 @@
 const logger = require('../utils/logger')
 const { createUser } = require('../services/user.services')
+const { omit } = require('lodash')
 
 async function createUserHandler(req, res) {
   try {
     const user = await createUser(req.body)
-    return res.send(user)
+    // delete user passowrd manually
+    // const newuser = user.toJSON()
+    // delete newuser.password
+
+    // now doing it by using lodash
+    return res.send(omit(user.toJSON(), 'password'))
   } catch (err) {
     logger.error(err)
-    res.status(409).send(err)
+    res.status(409).send(err.message)
   }
 }
 
 module.exports = {
-    createUserHandler,
+  createUserHandler,
 }
