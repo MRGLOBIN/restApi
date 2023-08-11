@@ -4,12 +4,12 @@ const { createUserSession } = require('../services/session.service')
 const { signjwt } = require('../utils/jwt.utils')
 
 async function createUserSessionHandler(req, res) {
+
   const user = await validatePassword(req.body)
 
   if (!user) {
     return res.status(401).send('invalid email or password')
   }
-
   const session = await createUserSession(user._id, req.get('user-agent' || ''))
 
   const accessToken = signjwt(
@@ -18,6 +18,7 @@ async function createUserSessionHandler(req, res) {
       expiresIn: config.get('accessTokenTtl'), // 15m
     }
   )
+  
   const refreshToken = signjwt(
     { ...user, session: session._id },
     {
@@ -29,4 +30,9 @@ async function createUserSessionHandler(req, res) {
     accessToken,
     refreshToken,
   })
+}
+
+
+module.exports = {
+  createUserSessionHandler
 }

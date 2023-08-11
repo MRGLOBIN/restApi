@@ -10,14 +10,14 @@ async function createUser(input) {
   }
 }
 
-async function validatePassword(email, passowrd) {
+async function validatePassword({email, password}) {
   const user = await userModel.findOne({ email })
 
   if (!user) {
     return false
   }
 
-  const isvalid = userModel.comparePassword(comparePassword)
+  const isvalid = await user.comparePassword(password)
   
   if (!isvalid) {
     return false

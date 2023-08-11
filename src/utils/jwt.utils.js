@@ -7,7 +7,6 @@ const publicKey = config.get('publicKey')
 function signjwt(object, options) {
   return jwt.sign(object, privateKey, {
     ...(options && options),
-    algorithm: 'RSA',
   })
 }
 

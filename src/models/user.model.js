@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema(
   }
 )
 
-userSchema.method.comparePassword = async function (candidatePassowrd) {
+userSchema.methods.comparePassword = async function (candidatePassowrd) {
   const user = this
   return bcrypt.compare(candidatePassowrd, user.password).catch((err) => false)
 }
