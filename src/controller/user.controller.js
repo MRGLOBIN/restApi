@@ -1,6 +1,8 @@
 const logger = require('../utils/logger')
 const { createUser } = require('../services/user.services')
 const { omit } = require('lodash')
+const { json } = require('express')
+const { stringify } = require('ajv')
 
 async function createUserHandler(req, res) {
   try {
@@ -10,7 +12,7 @@ async function createUserHandler(req, res) {
     // delete newuser.password
 
     // now doing it by using lodash
-    return res.send(omit(user.toJSON(), 'password'))
+    return res.send(omit(user, 'password'))
   } catch (err) {
     logger.error(err)
     res.status(409).send(err.message)

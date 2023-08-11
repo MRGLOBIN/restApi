@@ -5,7 +5,9 @@ const { userSchema } = require('./schema/user.schema.zod')
 function routes(app) {
 
   app.post('/users', validateResource(userSchema), createUserHandler)
-
+  
+  app.post('/users', validateResource(userSchema), createUserHandler)
+  
   app.get('/hello', (req, res) => {
     res.sendStatus(200)
   })
