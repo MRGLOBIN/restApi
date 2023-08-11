@@ -6,6 +6,11 @@ async function createUserSession(userId, userAgent){
     return await session
 }
 
+async function findSessions(query) {
+    return sessionModel.find(query).lean()
+}
+
 module.exports = {
-    createUserSession
+    createUserSession,
+    findSessions,
 }
