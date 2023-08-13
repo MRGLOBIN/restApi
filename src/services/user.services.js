@@ -25,7 +25,13 @@ async function validatePassword({email, password}) {
   return omit(user.toJSON(), 'password')
 }
 
+async function findUser(query)
+{
+  return userModel.findOne(query)
+}
+
 module.exports = {
   createUser,
   validatePassword,
+  findUser,
 }
