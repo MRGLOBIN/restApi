@@ -1,10 +1,13 @@
 const config = require('config')
 const { validatePassword } = require('../services/user.services')
-const { createUserSession, findSessions } = require('../services/session.service')
-const { signjwt } = require('../utils/jwt.utils')
+const {
+  createUserSession,
+  findSessions,
+  updateSession,
+} = require('../services/session.service')
+const { signjwt, verifyJwt } = require('../utils/jwt.utils')
 
 async function createUserSessionHandler(req, res) {
-
   const user = await validatePassword(req.body)
 
   if (!user) {
@@ -18,13 +21,15 @@ async function createUserSessionHandler(req, res) {
       expiresIn: config.get('accessTokenTtl'), // 15m
     }
   )
-  
+
   const refreshToken = signjwt(
     { ...user, session: session._id },
     {
       expiresIn: config.get('refreshTokenTtl'), // 15m
     }
   )
+
+  const { decoded, expired } = verifyJwt(accessToken)
 
   res.send({
     accessToken,
@@ -35,13 +40,23 @@ async function createUserSessionHandler(req, res) {
 async function getSessionsHandler(req, res) {
   const userId = res.locals.user._id
 
-  const sessions = await findSessions({user: userId, valid: true})
+  const sessions = await findSessions({ user: userId, valid: true })
 
   res.send(sessions)
 }
 
+async function deleteSessionHandler(req, res) {
+  const sessionId = res.local.user.session
+
+  await updateSession({ _id: sessionId }, { valid: false })
+  return res.send({
+    accessToken: null,
+    refreshToken: null,
+  })
+}
 
 module.exports = {
   createUserSessionHandler,
-  getSessionsHandler
+  getSessionsHandler,
+  deleteSessionHandler
 }

@@ -10,7 +10,12 @@ async function findSessions(query) {
     return sessionModel.find(query).lean()
 }
 
+async function updateSession(query, update) {
+    return sessionModel.updateOne(query, update)
+}
+
 module.exports = {
     createUserSession,
     findSessions,
+    updateSession
 }

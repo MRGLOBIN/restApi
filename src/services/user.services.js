@@ -4,7 +4,7 @@ const { omit } = require('lodash')
 async function createUser(input) {
   try {
     const user = await userModel.create(input)
-    return omit(user, 'password')
+    return omit(user.toJSON(), 'password')
   } catch (err) {
     throw new Error(err)
   }
@@ -22,7 +22,7 @@ async function validatePassword({email, password}) {
   if (!isvalid) {
     return false
   }
-  return omit(isvalid, 'password')
+  return omit(user.toJSON(), 'password')
 }
 
 module.exports = {

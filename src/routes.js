@@ -1,6 +1,7 @@
 const {
   createUserSessionHandler,
   getSessionsHandler,
+  deleteSessionHandler,
 } = require('./controller/session.controller')
 const { createUserHandler } = require('./controller/user.controller')
 const {requireUser} = require('./middleware/requireUser')
@@ -16,8 +17,10 @@ function routes(app) {
     validateResource(createSessionSchema),
     createUserSessionHandler
   )
-
+  
   app.get('/api/sessions', requireUser, getSessionsHandler)
+  
+  app.delete('/api/sessions', requireUser, deleteSessionHandler)
 
   app.get('/hello', (req, res) => {
     res.sendStatus(200)

@@ -12,11 +12,10 @@ const deserializeUser = (req, res, next) => {
   }
 
   const { decoded, expired } = verifyJwt(accessToken)
-
   if (decoded) {
     res.locals.user = decoded
-}
-return next()
+  }
+  return next()
 }
 
 module.exports = {

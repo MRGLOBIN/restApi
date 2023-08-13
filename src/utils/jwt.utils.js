@@ -12,7 +12,7 @@ function signjwt(object, options) {
 
 function verifyJwt(token) {
   try {
-    const decoded = jwt.verify(token, publicKey)
+    const decoded = jwt.verify(token, privateKey)
     return {
       valid: true,
       expired: false,
