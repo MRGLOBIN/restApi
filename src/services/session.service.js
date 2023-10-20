@@ -4,6 +4,7 @@ const sessionModel = require('../models/session.models')
 const { verifyJwt, signjwt } = require('../utils/jwt.utils')
 const { findUser } = require('./user.services')
 const { get } = require('lodash')
+const res = require('express/lib/response')
 
 async function createUserSession(userId, userAgent) {
   const session = sessionModel.create({ user: userId, userAgent })
@@ -22,11 +23,11 @@ async function updateSession(query, update) {
 async function reIssueAccessToken({ refreshToken }) {
   const { decoded } = verifyJwt(refreshToken)
 
-  if (!decoded || !get(decoded, 'session')) {
+  if (!decoded || !get(decoded, '_id')) {
     return false
   }
 
-  const session = sessionModel.findById(get(decoded, 'session'))
+  const session = await sessionModel.findById(get(decoded, 'session'))
 
   if (!session || !session.valid) {
     return false
@@ -39,7 +40,7 @@ async function reIssueAccessToken({ refreshToken }) {
 
   const accessToken = signjwt(
     { ...user, session: session._id },
-    { expiresIn: config.get('accessToken') }
+    { expiresIn: config.get('accessTokenTtl') }
   )
 
   return accessToken

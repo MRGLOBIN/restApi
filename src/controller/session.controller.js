@@ -41,12 +41,12 @@ async function getSessionsHandler(req, res) {
   const userId = res.locals.user._id
 
   const sessions = await findSessions({ user: userId, valid: true })
-
+  console.log(res.locals.user._id)
   res.send(sessions)
 }
 
 async function deleteSessionHandler(req, res) {
-  const sessionId = res.local.user.session
+  const sessionId = res.locals.user.session
 
   await updateSession({ _id: sessionId }, { valid: false })
   return res.send({
@@ -58,5 +58,5 @@ async function deleteSessionHandler(req, res) {
 module.exports = {
   createUserSessionHandler,
   getSessionsHandler,
-  deleteSessionHandler
+  deleteSessionHandler,
 }

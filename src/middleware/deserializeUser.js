@@ -28,8 +28,9 @@ const deserializeUser = async (req, res, next) => {
     }
 
     const result = verifyJwt(newAccessToken)
-    res.locals.user = result.decoded
+    res.locals.user = result.decoded._doc
 
+    console.log(result.decoded._doc)
     return next()
   }
 

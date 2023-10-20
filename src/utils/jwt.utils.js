@@ -5,7 +5,7 @@ const privateKey = config.get('privateKey')
 const publicKey = config.get('publicKey')
 
 function signjwt(object, options) {
-  return jwt.sign(object, privateKey, {
+  return jwt.sign(object, publicKey, {
     ...(options && options),
   })
 }
